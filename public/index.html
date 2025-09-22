@@ -200,7 +200,7 @@ input[type=text]{flex:1;padding:12px;border-radius:10px;border:1px solid #e6e6f2
       
       <div class="preview" id="preview">
         <img src="certificate.jpg" alt="Certificate template" id="certImg">
-        <div class="name-overlay" id="nameOverlay">Your Name Here</div>
+        <div class="name-overlay" id="nameOverlay"></div>
       </div>
     </div>
 
@@ -230,14 +230,14 @@ const previewBtn = document.getElementById('previewBtn');
 // Update name overlay and enable download
 nameInput.addEventListener('input', ()=>{
   const val = nameInput.value.trim();
-  nameOverlay.textContent = val || 'Your Name Here';
+  nameOverlay.textContent = val || '';
   download.disabled = val === '';
 });
 
 // Reset form
 reset.addEventListener('click', ()=>{
   nameInput.value = '';
-  nameOverlay.textContent = 'Your Name Here';
+  nameOverlay.textContent = '';
   download.disabled = true;
 });
 
@@ -283,7 +283,7 @@ previewBtn.addEventListener('click', ()=>{
   previewWindow.document.body.appendChild(cloneImg);
   
   const overlayDiv = previewWindow.document.createElement('div');
-  overlayDiv.innerText = nameOverlay.textContent || 'Your Name Here';
+  overlayDiv.innerText = nameOverlay.textContent || '';
   overlayDiv.style.position='absolute';
   overlayDiv.style.top='57%';
   overlayDiv.style.left='50%';

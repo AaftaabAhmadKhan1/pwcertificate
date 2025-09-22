@@ -1,19 +1,30 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Admin - Certificate Downloads</title>
   <style>
     body { 
       font-family: sans-serif; 
-      display:flex; 
-      flex-direction:column; 
-      align-items:center; 
-      margin-top:50px; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      margin-top: 50px; 
     }
     button { 
-      padding:10px 20px; 
-      margin-top:10px; 
-      cursor:pointer; 
+      padding: 10px 20px; 
+      margin-top: 10px; 
+      cursor: pointer; 
+    }
+    h1 {
+      color: #4B0082;
+      margin-bottom: 20px;
+    }
+    #count {
+      font-size: 24px;
+      font-weight: bold;
+      color: #222;
     }
   </style>
 </head>
@@ -26,9 +37,10 @@
     const countDiv = document.getElementById('count');
     const resetBtn = document.getElementById('reset');
 
+    // Function to load current count from serverless API
     async function loadCount() {
       try {
-        const res = await fetch('/api/download-count'); // updated API route
+        const res = await fetch('/api/download-count'); // fetch current count
         const data = await res.json();
         countDiv.textContent = `Total Downloads: ${data.count}`;
       } catch (err) {
@@ -37,16 +49,17 @@
       }
     }
 
+    // Reset button to delete count via serverless API
     resetBtn.addEventListener('click', async () => {
       try {
-        await fetch('/api/download-count', { method: 'DELETE' }); // reset via API
-        loadCount();
+        await fetch('/api/download-count', { method: 'DELETE' }); // reset count
+        loadCount(); // reload after reset
       } catch (err) {
         console.error(err);
       }
     });
 
-    loadCount(); // load count on page load
+    loadCount(); // initial load on page open
   </script>
 </body>
 </html>

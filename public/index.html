@@ -10,7 +10,7 @@ html,body{height:100%; font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Ne
 body{
   color:#222;
   background: linear-gradient(135deg, #667eea, #764ba2);
-  overflow:hidden; /* hide scrollbars */
+  overflow:hidden;
   min-height:100vh;
   display:flex;
   flex-direction:column;
@@ -18,7 +18,7 @@ body{
 }
 
 .page{display:flex;flex-direction:column;align-items:center;padding:10px;width:100%;}
-header{display:flex;align-items:center;justify-content:center;padding:12px 10px;width:100%;}
+header{display:flex;align-items:center;justify-content:center;padding:12px 10px;width:100%;position:relative;}
 
 .title{
   font-weight:900;
@@ -35,11 +35,26 @@ header{display:flex;align-items:center;justify-content:center;padding:12px 10px;
   100%{background-position:400% 0%;}
 }
 
+.preview-btn {
+  position:absolute;
+  left:10px;
+  top:10px;
+  padding:10px 16px;
+  background:#4e54c8;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:700;
+  z-index:10;
+}
+.preview-btn:hover { background:#6f71f5; }
+
 .hero{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;gap:20px;flex:1;overflow:hidden;}
 
 .card{
   width: 100%;
-  max-width: 1000px; /* smaller width */
+  max-width: 1000px;
   background:#fff;
   border-radius:16px;
   padding:20px;
@@ -94,13 +109,13 @@ header{display:flex;align-items:center;justify-content:center;padding:12px 10px;
   align-items:center;
   justify-content:center;
   text-align:center;
-  max-height:450px; /* smaller preview */
+  max-height:450px;
   max-width:100%;
   width:auto;
 }
 .preview img{
   max-width:75%;
-  max-height:160%;
+  max-height:100%;
   height:auto;
   display:block;
 }
@@ -161,13 +176,14 @@ input[type=text]{flex:1;padding:12px;border-radius:10px;border:1px solid #e6e6f2
 @media (max-width:1024px){
   .card{padding:16px;}
   .form{padding:12px;}
-  .preview{max-height:300px;} /* smaller on tablet/mobile */
+  .preview{max-height:300px;}
 }
 </style>
 </head>
 <body>
 <div class="page">
 <header>
+  <button class="preview-btn" id="previewBtn">Preview Certificate</button>
   <div class="title">Certificate of Appreciation for Our PW Champs !!</div>
 </header>
 
@@ -184,7 +200,7 @@ input[type=text]{flex:1;padding:12px;border-radius:10px;border:1px solid #e6e6f2
       
       <div class="preview" id="preview">
         <img src="certificate.jpg" alt="Certificate template" id="certImg">
-        <div class="name-overlay" id="nameOverlay"></div>
+        <div class="name-overlay" id="nameOverlay">Your Name Here</div>
       </div>
     </div>
 
@@ -209,27 +225,32 @@ const download = document.getElementById('download');
 const reset = document.getElementById('reset');
 const nameOverlay = document.getElementById('nameOverlay');
 const certImg = document.getElementById('certImg');
+const previewBtn = document.getElementById('previewBtn');
 
+// Update name overlay and enable download
 nameInput.addEventListener('input', ()=>{
   const val = nameInput.value.trim();
   nameOverlay.textContent = val || 'Your Name Here';
   download.disabled = val === '';
 });
 
+// Reset form
 reset.addEventListener('click', ()=>{
   nameInput.value = '';
   nameOverlay.textContent = 'Your Name Here';
   download.disabled = true;
 });
 
-download.addEventListener('click', ()=>{
+// Download certificate and notify backend count API
+download.addEventListener('click', async ()=>{
   if(!nameInput.value.trim()) return;
+
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   const img = new Image();
   img.crossOrigin = 'anonymous';
   img.src = certImg.src;
-  img.onload = ()=>{
+  img.onload = async ()=>{
     canvas.width = img.width;
     canvas.height = img.height;
     ctx.drawImage(img,0,0);
@@ -237,11 +258,41 @@ download.addEventListener('click', ()=>{
     ctx.fillStyle = '#222';
     ctx.textAlign = 'center';
     ctx.fillText(nameOverlay.textContent, canvas.width/2, canvas.height*0.65);
+
     const link = document.createElement('a');
     link.download = 'certificate.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
+
+    // Notify backend
+    try {
+      await fetch('/api/download-count', { method:'POST' });
+    } catch(err){ console.error('Count API error:', err); }
   };
+});
+
+// Preview certificate in popup
+previewBtn.addEventListener('click', ()=>{
+  const previewWindow = window.open('', 'Preview Certificate', 'width=900,height=600');
+  previewWindow.document.write('<html><head><title>Certificate Preview</title></head><body style="margin:0;display:flex;justify-content:center;align-items:center;height:100vh;">');
+  const cloneImg = certImg.cloneNode();
+  const overlayText = nameOverlay.textContent || 'Your Name Here';
+  cloneImg.style.maxWidth = '90%';
+  cloneImg.style.height = 'auto';
+  previewWindow.document.body.appendChild(cloneImg);
+  const overlayDiv = previewWindow.document.createElement('div');
+  overlayDiv.innerText = overlayText;
+  overlayDiv.style.position='absolute';
+  overlayDiv.style.top='57%';
+  overlayDiv.style.left='50%';
+  overlayDiv.style.transform='translate(-50%,0)';
+  overlayDiv.style.fontFamily='Times New Roman';
+  overlayDiv.style.fontSize='36px';
+  overlayDiv.style.color='#222';
+  overlayDiv.style.fontWeight='400';
+  overlayWindow = previewWindow; // for debug
+  previewWindow.document.body.appendChild(overlayDiv);
+  previewWindow.document.write('</body></html>');
 });
 </script>
 </body>

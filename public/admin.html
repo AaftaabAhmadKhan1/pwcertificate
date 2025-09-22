@@ -3,8 +3,18 @@
 <head>
   <title>Admin - Certificate Downloads</title>
   <style>
-    body { font-family: sans-serif; display:flex; flex-direction:column; align-items:center; margin-top:50px; }
-    button { padding:10px 20px; margin-top:10px; cursor:pointer; }
+    body { 
+      font-family: sans-serif; 
+      display:flex; 
+      flex-direction:column; 
+      align-items:center; 
+      margin-top:50px; 
+    }
+    button { 
+      padding:10px 20px; 
+      margin-top:10px; 
+      cursor:pointer; 
+    }
   </style>
 </head>
 <body>
@@ -17,17 +27,26 @@
     const resetBtn = document.getElementById('reset');
 
     async function loadCount() {
-      const res = await fetch('/count');
-      const data = await res.json();
-      countDiv.textContent = `Total Downloads: ${data.count}`;
+      try {
+        const res = await fetch('/api/download-count'); // updated API route
+        const data = await res.json();
+        countDiv.textContent = `Total Downloads: ${data.count}`;
+      } catch (err) {
+        countDiv.textContent = 'Error loading count';
+        console.error(err);
+      }
     }
 
     resetBtn.addEventListener('click', async () => {
-      await fetch('/reset', { method: 'POST' });
-      loadCount();
+      try {
+        await fetch('/api/download-count', { method: 'DELETE' }); // reset via API
+        loadCount();
+      } catch (err) {
+        console.error(err);
+      }
     });
 
-    loadCount();
+    loadCount(); // load count on page load
   </script>
 </body>
 </html>

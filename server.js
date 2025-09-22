@@ -40,4 +40,4 @@ app.post('/reset', (req, res) => {
   res.json(data);
 });
 
-app.listen(PORT, () => console.log(`Server running at http://127.0.0.1:${PORT}`));
+app.listen(PORT, () => console.log(`Server running at https://pwcertificate.vercel.app/`));

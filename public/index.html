@@ -241,7 +241,7 @@ reset.addEventListener('click', ()=>{
   download.disabled = true;
 });
 
-// Download certificate and notify backend count API
+// Download certificate and notify backend API
 download.addEventListener('click', async ()=>{
   if(!nameInput.value.trim()) return;
 
@@ -259,12 +259,13 @@ download.addEventListener('click', async ()=>{
     ctx.textAlign = 'center';
     ctx.fillText(nameOverlay.textContent, canvas.width/2, canvas.height*0.65);
 
+    // Save as PNG
     const link = document.createElement('a');
     link.download = 'certificate.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
 
-    // Notify backend
+    // Notify backend API
     try {
       await fetch('/api/download-count', { method:'POST' });
     } catch(err){ console.error('Count API error:', err); }
@@ -274,14 +275,15 @@ download.addEventListener('click', async ()=>{
 // Preview certificate in popup
 previewBtn.addEventListener('click', ()=>{
   const previewWindow = window.open('', 'Preview Certificate', 'width=900,height=600');
-  previewWindow.document.write('<html><head><title>Certificate Preview</title></head><body style="margin:0;display:flex;justify-content:center;align-items:center;height:100vh;">');
+  previewWindow.document.write('<html><head><title>Certificate Preview</title></head><body style="margin:0;display:flex;justify-content:center;align-items:center;height:100vh;position:relative;">');
+  
   const cloneImg = certImg.cloneNode();
-  const overlayText = nameOverlay.textContent || 'Your Name Here';
   cloneImg.style.maxWidth = '90%';
   cloneImg.style.height = 'auto';
   previewWindow.document.body.appendChild(cloneImg);
+  
   const overlayDiv = previewWindow.document.createElement('div');
-  overlayDiv.innerText = overlayText;
+  overlayDiv.innerText = nameOverlay.textContent || 'Your Name Here';
   overlayDiv.style.position='absolute';
   overlayDiv.style.top='57%';
   overlayDiv.style.left='50%';
@@ -290,8 +292,8 @@ previewBtn.addEventListener('click', ()=>{
   overlayDiv.style.fontSize='36px';
   overlayDiv.style.color='#222';
   overlayDiv.style.fontWeight='400';
-  overlayWindow = previewWindow; // for debug
   previewWindow.document.body.appendChild(overlayDiv);
+
   previewWindow.document.write('</body></html>');
 });
 </script>

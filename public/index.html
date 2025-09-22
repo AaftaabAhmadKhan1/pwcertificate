@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Certificate of Appreciation</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%; font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;}
+  body{
+    color:#222;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    overflow-x:hidden;
+    position: relative;
+    min-height:100vh;
+  }
+
+  .page{display:flex;flex-direction:column;align-items:center;padding:10px;}
+  header{display:flex;align-items:center;justify-content:center;padding:12px 10px;width:100%;}
+
+  .title{
+    font-weight: 900;
+    font-size: clamp(36px, 6vw, 60px);
+    text-align: center;
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 8s linear infinite;
+  }
+
+  @keyframes rainbow {
+    0%{background-position:0% 0%;}
+    100%{background-position:400% 0%;}
+  }
+
+  .hero{display:flex;align-items:center;justify-content:center;width:100%;flex-wrap:wrap;margin-top:20px;}
+
+  .card{
+    width: clamp(300px, 95%, 1300px);
+    background:#fff;
+    border-radius:16px;
+    padding:24px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:20px;
+    align-items:center;
+    border: 6px solid transparent;
+    border-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) 1;
+    animation: rainbowBorder 8s linear infinite;
+    border-image-slice: 1;
+    box-shadow:0 10px 30px rgba(75,0,130,0.08);
+    position: relative;
+  }
+
+  @keyframes rainbowBorder {
+    0%{border-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) 1;}
+    25%{border-image: linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet) 1;}
+    50%{border-image: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet) 1;}
+    75%{border-image: linear-gradient(360deg, red, orange, yellow, green, blue, indigo, violet) 1;}
+    100%{border-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) 1;}
+  }
+
+  .logo{
+    position:absolute;
+    width: clamp(40px,8vw,80px);
+    height: clamp(40px,8vw,80px);
+    object-fit: contain;
+    z-index:1;
+  }
+  .top-left{top:10px; left:10px;}
+  .top-right{top:10px; right:10px;}
+  .bottom-left{bottom:10px; left:10px;}
+  .bottom-right{bottom:10px; right:10px;}
+
+  .headline{
+    font-size: clamp(18px,2vw,28px);
+    color:#4B0082;
+    font-weight:800;
+    white-space: nowrap;
+    overflow-x:auto;
+    margin-bottom:10px;
+  }
+  .sub{margin-top:5px;color:#444;opacity:.9}
+
+  .preview{
+    margin-top:10px;
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+    border:2px solid #4B0082;
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    max-height:800px;
+    width:100%;
+  }
+  .preview img{width:100%;height:auto;display:block}
+
+  .name-overlay{
+    position:absolute;
+    top:58%;
+    left:50%;
+    transform:translate(-50%, 0);
+    font-size: clamp(24px,3vw,42px);
+    font-weight:400;
+    color:#222;
+    text-align:center;
+    white-space:nowrap;
+    font-family:'Times New Roman',serif;
+    letter-spacing:1px;
+    z-index:2;
+  }
+
+  .form{
+    background:linear-gradient(180deg,#fff,#fbfbff);
+    padding:18px;
+    border-radius:12px;
+    border:1px solid rgba(75,0,130,0.06);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    margin-top:10px;
+  }
+  .form h2{color:#333;margin-bottom:4px;font-size:clamp(18px,2.5vw,24px);}
+  .name-input{width:100%;display:flex;gap:8px}
+  input[type=text]{flex:1;padding:12px;border-radius:10px;border:1px solid #e6e6f2;font-size:15px;min-width:0;}
+
+  .btn-rainbow{
+    padding:12px 20px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:clamp(14px,2vw,16px);
+    border:none;
+    cursor:pointer;
+    background: linear-gradient(90deg, #4e54c8, #8f94fb);
+    position: relative;
+    color: white;
+    overflow: hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+    flex:1;
+    min-width:120px;
+  }
+  .btn-rainbow::before{
+    content:'';
+    position:absolute;
+    top:0; left:0; width:100%; height:100%;
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 8s linear infinite;
+    mix-blend-mode: screen;
+  }
+  .btn-rainbow:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+  }
+  .btn-rainbow:hover:enabled{transform: scale(1.05);}
+
+  .tiny{font-size:12px;color:#666}
+  .chat{position:fixed;right:18px;bottom:18px;background:#25D366;padding:12px 14px;border-radius:999px;box-shadow:0 8px 22px rgba(0,0,0,0.12);display:flex;gap:10px;align-items:center;color:white;font-weight:700;text-decoration:none}
+
+  @media (max-width:1024px){
+    .card{grid-template-columns:1fr; padding:20px; gap:16px;}
+    .hero{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="title">Certificate of Appreciation for Our PW Champs !!</div>
+  </header>
+
+  <!-- Logos outside card -->
+  <img src="logo1.svg" class="logo top-left" alt="Top Left Logo">
+  <img src="logo2.svg" class="logo top-right" alt="Top Right Logo">
+  <img src="logo3.svg" class="logo bottom-left" alt="Bottom Left Logo">
+  <img src="logo4.svg" class="logo bottom-right" alt="Bottom Right Logo">
+
+  <main class="hero">
+    <section class="card" role="region" aria-label="Main">
+      <div style="width:100%;">
+        <div class="headline">A simple token of appreciation — fast, printable, and beautiful.</div>
+        <div class="preview" id="preview">
+          <img src="certificate.jpg" alt="Certificate template" id="certImg">
+          <div class="name-overlay" id="nameOverlay">Your Name Here</div>
+        </div>
+      </div>
+
+      <aside class="form" aria-label="Create">
+        <h2>Place name on certificate</h2>
+        <div class="name-input">
+          <input id="name" type="text" placeholder="Full name" value="" />
+        </div>
+        
+        <div style="width:100%;display:flex;gap:16px;justify-content:center;margin-top:12px;flex-wrap:wrap">
+          <button id="download" class="btn-rainbow" disabled>Download Certificate</button>
+          <button id="reset" class="btn-rainbow">Reset</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+</div>
+
+<script>
+const nameInput = document.getElementById('name');
+const download = document.getElementById('download');
+const reset = document.getElementById('reset');
+const nameOverlay = document.getElementById('nameOverlay');
+const certImg = document.getElementById('certImg');
+
+// Live name update & enable/disable download
+nameInput.addEventListener('input', ()=>{
+  const val = nameInput.value.trim();
+  nameOverlay.textContent = val || 'Your Name Here';
+  download.disabled = val === '';
+});
+
+reset.addEventListener('click', ()=>{
+  nameInput.value = '';
+  nameOverlay.textContent = 'Your Name Here';
+  download.disabled = true;
+});
+
+download.addEventListener('click', async ()=>{
+  if(!nameInput.value.trim()) return;
+
+  // Download certificate
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = certImg.src;
+  img.onload = async ()=>{
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img,0,0);
+    ctx.font = '72px Times New Roman';
+    ctx.fillStyle = '#222';
+    ctx.textAlign = 'center';
+    ctx.fillText(nameOverlay.textContent, canvas.width/2, canvas.height*0.65);
+
+    const link = document.createElement('a');
+    link.download = 'certificate.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+
+    // Notify backend service
+    try {
+      await fetch('/increment', { method: 'POST' });
+    } catch (err) {
+      console.error('Failed to notify backend:', err);
+    }
+  };
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+  <title>Admin - Certificate Downloads</title>
+  <style>
+    body { font-family: sans-serif; display:flex; flex-direction:column; align-items:center; margin-top:50px; }
+    button { padding:10px 20px; margin-top:10px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <h1>Certificate Downloads</h1>
+  <div id="count">Loading...</div>
+  <button id="reset">Reset Count</button>
+
+  <script>
+    const countDiv = document.getElementById('count');
+    const resetBtn = document.getElementById('reset');
+
+    async function loadCount() {
+      const res = await fetch('/count');
+      const data = await res.json();
+      countDiv.textContent = `Total Downloads: ${data.count}`;
+    }
+
+    resetBtn.addEventListener('click', async () => {
+      await fetch('/reset', { method: 'POST' });
+      loadCount();
+    });
+
+    loadCount();
+  </script>
+</body>
+</html>

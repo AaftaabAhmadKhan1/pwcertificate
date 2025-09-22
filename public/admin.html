@@ -11,12 +11,20 @@
       flex-direction: column; 
       align-items: center; 
       margin-top: 50px; 
+      background: #f4f4f8;
     }
     button { 
       padding: 10px 20px; 
       margin-top: 10px; 
       cursor: pointer; 
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(90deg, #4e54c8, #8f94fb);
+      color: white;
+      font-weight: 700;
+      transition: 0.2s;
     }
+    button:hover { transform: scale(1.05); }
     h1 {
       color: #4B0082;
       margin-bottom: 20px;
@@ -25,6 +33,7 @@
       font-size: 24px;
       font-weight: bold;
       color: #222;
+      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -37,10 +46,11 @@
     const countDiv = document.getElementById('count');
     const resetBtn = document.getElementById('reset');
 
-    // Function to load current count from serverless API
+    // Function to load current download count
     async function loadCount() {
       try {
-        const res = await fetch('/api/download-count'); // fetch current count
+        const res = await fetch('/api/download-count');
+        if (!res.ok) throw new Error('Network response not ok');
         const data = await res.json();
         countDiv.textContent = `Total Downloads: ${data.count}`;
       } catch (err) {
@@ -49,17 +59,18 @@
       }
     }
 
-    // Reset button to delete count via serverless API
+    // Reset count via API
     resetBtn.addEventListener('click', async () => {
       try {
-        await fetch('/api/download-count', { method: 'DELETE' }); // reset count
+        const res = await fetch('/api/download-count', { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to reset count');
         loadCount(); // reload after reset
       } catch (err) {
         console.error(err);
       }
     });
 
-    loadCount(); // initial load on page open
+    loadCount(); // load count when page opens
   </script>
 </body>
 </html>

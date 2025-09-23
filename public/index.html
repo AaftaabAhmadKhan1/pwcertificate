@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=0.8" />
 <title>Certificate of Appreciation</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%; font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;}
+html{
+  height:100%; 
+  font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;
+  transform: scale(0.65);
+  transform-origin: center center;
+}
 body{
+  height:100%;
   color:#222;
   background: linear-gradient(135deg, #667eea, #764ba2);
   overflow:hidden;
@@ -15,14 +21,26 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
+  justify-content:center;
 }
 
-.page{display:flex;flex-direction:column;align-items:center;padding:10px;width:100%;}
+
+
+.page{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+}
 header{display:flex;align-items:center;justify-content:center;padding:12px 10px;width:100%;position:relative;}
 
 .title{
   font-weight:900;
-  font-size:clamp(28px, 8vw, 60px); 
+  font-size:clamp(20px, 5vw, 40px); 
   text-align:center;
   background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
   background-size: 400% 100%;
@@ -30,6 +48,8 @@ header{display:flex;align-items:center;justify-content:center;padding:12px 10px;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: rainbow 8s linear infinite;
+  white-space: nowrap;
+  overflow: hidden;
 }
 @keyframes rainbow {
   0%{background-position:0% 0%;}
@@ -77,18 +97,21 @@ header{display:flex;align-items:center;justify-content:center;padding:12px 10px;
   75%{border-image: linear-gradient(360deg, red, orange, yellow, green, blue, indigo, violet) 1;}
 }
 
-/* Logos outside card */
+/* Logos in four corners */
 .logo{
-  position:absolute;
-  width: clamp(40px,8vw,80px);
-  height: clamp(40px,8vw,80px);
+  position:fixed;
+  width: clamp(80px,8vw,80px);
+  height: clamp(50px,8vw,80px);
   object-fit: contain;
-  z-index:1;
+  z-index:1000;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  padding: 5px;
 }
-.top-left{top:10px; left:10px;}
-.top-right{top:10px; right:10px;}
-.bottom-left{bottom:10px; left:10px;}
-.bottom-right{bottom:10px; right:10px;}
+.top-left{top:-120px; left:-250px;}
+.top-right{top:-120px; right:-250px;}
+.bottom-left{bottom:-120px; left:-250px;}
+.bottom-right{bottom:-120px; right:-250px;}
 
 .headline{
   font-size: clamp(16px, 4vw, 28px);
@@ -227,7 +250,6 @@ const download = document.getElementById('download');
 const reset = document.getElementById('reset');
 const nameOverlay = document.getElementById('nameOverlay');
 const certImg = document.getElementById('certImg');
-const previewBtn = document.getElementById('previewBtn');
 
 // Update name overlay and enable download
 nameInput.addEventListener('input', ()=>{
@@ -288,31 +310,4 @@ download.addEventListener('click', async ()=>{
     }
   };
 });
-
-// Preview certificate in popup
-previewBtn.addEventListener('click', ()=>{
-  const previewWindow = window.open('', 'Preview Certificate', 'width=900,height=600');
-  previewWindow.document.write('<html><head><title>Certificate Preview</title></head><body style="margin:0;display:flex;justify-content:center;align-items:center;height:100vh;position:relative;">');
-  
-  const cloneImg = certImg.cloneNode();
-  cloneImg.style.maxWidth = '90%';
-  cloneImg.style.height = 'auto';
-  previewWindow.document.body.appendChild(cloneImg);
-  
-  const overlayDiv = previewWindow.document.createElement('div');
-  overlayDiv.innerText = nameOverlay.textContent || '';
-  overlayDiv.style.position='absolute';
-  overlayDiv.style.top='57%';
-  overlayDiv.style.left='50%';
-  overlayDiv.style.transform='translate(-50%,0)';
-  overlayDiv.style.fontFamily='Times New Roman';
-  overlayDiv.style.fontSize='36px';
-  overlayDiv.style.color='#222';
-  overlayDiv.style.fontWeight='400';
-  previewWindow.document.body.appendChild(overlayDiv);
-
-  previewWindow.document.write('</body></html>');
-});
 </script>
-</body>
-</html>

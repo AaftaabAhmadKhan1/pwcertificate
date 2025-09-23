@@ -51,32 +51,35 @@
       try {
         countDiv.textContent = 'Loading...';
         
-        // Try the serverless function first
-        let res = await fetch('/api/download-count', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        // Try multiple API endpoints in order of preference
+        let res;
+        let endpoint;
         
-        // If 404, try fallback endpoints
-        if (res.status === 404) {
-          console.log('Trying alternative API endpoint...');
-          res = await fetch('/api', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          
-          if (res.status === 404) {
-            console.log('Trying Express server endpoint...');
-            res = await fetch('/count', {
+        const endpoints = [
+          '/api/count',
+          '/api/download-count', 
+          '/api',
+          '/count'
+        ];
+        
+        for (endpoint of endpoints) {
+          try {
+            console.log(`Trying endpoint: ${endpoint}`);
+            res = await fetch(endpoint, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
               },
             });
+            
+            if (res.ok) {
+              console.log(`Success with endpoint: ${endpoint}`);
+              break;
+            } else {
+              console.log(`Failed with ${endpoint}: ${res.status}`);
+            }
+          } catch (err) {
+            console.log(`Error with ${endpoint}:`, err.message);
           }
         }
         
@@ -111,32 +114,35 @@
         resetBtn.disabled = true;
         resetBtn.textContent = 'Resetting...';
         
-        // Try serverless function first
-        let res = await fetch('/api/download-count', { 
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        // Try multiple reset endpoints
+        let res;
+        let endpoint;
         
-        // If 404, try fallback endpoints
-        if (res.status === 404) {
-          console.log('Trying alternative API endpoint...');
-          res = await fetch('/api', { 
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          
-          if (res.status === 404) {
-            console.log('Trying Express server endpoint...');
-            res = await fetch('/reset', { 
-              method: 'POST',
+        const resetEndpoints = [
+          { url: '/api/count', method: 'DELETE' },
+          { url: '/api/download-count', method: 'DELETE' }, 
+          { url: '/api', method: 'DELETE' },
+          { url: '/reset', method: 'POST' }
+        ];
+        
+        for (const ep of resetEndpoints) {
+          try {
+            console.log(`Trying reset endpoint: ${ep.url} (${ep.method})`);
+            res = await fetch(ep.url, { 
+              method: ep.method,
               headers: {
                 'Content-Type': 'application/json',
               },
             });
+            
+            if (res.ok) {
+              console.log(`Success with reset endpoint: ${ep.url}`);
+              break;
+            } else {
+              console.log(`Failed with ${ep.url}: ${res.status}`);
+            }
+          } catch (err) {
+            console.log(`Error with ${ep.url}:`, err.message);
           }
         }
         

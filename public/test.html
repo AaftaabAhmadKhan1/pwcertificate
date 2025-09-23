@@ -20,6 +20,8 @@
     <h1>API Test Page</h1>
     <p>Test the download count API:</p>
     
+    <button onclick="testHello()">Test Hello API</button>
+    <button onclick="testCount()">Test Count API</button>
     <button onclick="testGet()">GET Count</button>
     <button onclick="testPost()">POST (Increment)</button>
     <button onclick="testDelete()">DELETE (Reset)</button>
@@ -33,6 +35,38 @@
         function log(message) {
             const timestamp = new Date().toLocaleTimeString();
             output.textContent += `[${timestamp}] ${message}\n`;
+        }
+        
+        async function testHello() {
+            log('Testing basic API connectivity /api/hello...');
+            try {
+                const response = await fetch('/api/hello');
+                log(`Response status: ${response.status}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`Hello API works! Data: ${JSON.stringify(data)}`);
+                } else {
+                    log(`Hello API failed: ${response.statusText}`);
+                }
+            } catch (error) {
+                log(`Hello API error: ${error.message}`);
+            }
+        }
+        
+        async function testCount() {
+            log('Testing new count API /api/count...');
+            try {
+                const response = await fetch('/api/count');
+                log(`Response status: ${response.status}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`Count API works! Data: ${JSON.stringify(data)}`);
+                } else {
+                    log(`Count API failed: ${response.statusText}`);
+                }
+            } catch (error) {
+                log(`Count API error: ${error.message}`);
+            }
         }
         
         async function testGet() {

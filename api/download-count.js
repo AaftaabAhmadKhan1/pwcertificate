@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const COUNT_FILE = path.join(process.cwd(), 'count.json');
+const COUNT_FILE = path.join(process.cwd(), 'data/downloads.json');
 
 function readCount() {
   if (!fs.existsSync(COUNT_FILE)) return 0;

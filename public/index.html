@@ -267,19 +267,24 @@ download.addEventListener('click', async ()=>{
     link.href = canvas.toDataURL('image/png');
     link.click();
 
-    // Notify backend API
-    try {
-      const response = await fetch('/api/download-count', { 
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (!response.ok) {
-        console.warn('Failed to update download count:', response.status);
+    // Notify backend API with fallback
+    const incrementEndpoints = ['/api/downloads', '/api/count', '/api/download-count'];
+    
+    for (const endpoint of incrementEndpoints) {
+      try {
+        const response = await fetch(endpoint, { 
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.ok) {
+          console.log('Download count updated via', endpoint);
+          break;
+        }
+      } catch(err){ 
+        console.warn('Failed endpoint:', endpoint, err.message); 
       }
-    } catch(err){ 
-      console.error('Count API error:', err); 
     }
   };
 });

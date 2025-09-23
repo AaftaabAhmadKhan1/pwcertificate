@@ -23,6 +23,7 @@
     <button onclick="testGet()">GET Count</button>
     <button onclick="testPost()">POST (Increment)</button>
     <button onclick="testDelete()">DELETE (Reset)</button>
+    <button onclick="testAlternative()">Test Alternative API</button>
     
     <div id="output">Click a button to test the API...</div>
 
@@ -77,6 +78,22 @@
                 log(`Response status: ${response.status}`);
                 const data = await response.json();
                 log(`Response data: ${JSON.stringify(data)}`);
+            } catch (error) {
+                log(`Error: ${error.message}`);
+            }
+        }
+        
+        async function testAlternative() {
+            log('Testing alternative API endpoint /api...');
+            try {
+                const response = await fetch('/api');
+                log(`Response status: ${response.status}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`Response data: ${JSON.stringify(data)}`);
+                } else {
+                    log(`Error: ${response.statusText}`);
+                }
             } catch (error) {
                 log(`Error: ${error.message}`);
             }

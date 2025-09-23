@@ -61,13 +61,23 @@
         
         // If 404, try fallback endpoints
         if (res.status === 404) {
-          console.log('Serverless function not found, trying Express server endpoint...');
-          res = await fetch('/count', {
+          console.log('Trying alternative API endpoint...');
+          res = await fetch('/api', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
             },
           });
+          
+          if (res.status === 404) {
+            console.log('Trying Express server endpoint...');
+            res = await fetch('/count', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+          }
         }
         
         if (!res.ok) {
@@ -109,15 +119,25 @@
           },
         });
         
-        // If 404, try fallback endpoint
+        // If 404, try fallback endpoints
         if (res.status === 404) {
-          console.log('Trying fallback reset endpoint...');
-          res = await fetch('/reset', { 
-            method: 'POST',
+          console.log('Trying alternative API endpoint...');
+          res = await fetch('/api', { 
+            method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
             },
           });
+          
+          if (res.status === 404) {
+            console.log('Trying Express server endpoint...');
+            res = await fetch('/reset', { 
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+          }
         }
         
         if (!res.ok) {

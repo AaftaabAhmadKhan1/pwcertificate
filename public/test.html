@@ -39,8 +39,20 @@
             try {
                 const response = await fetch('/api/download-count');
                 log(`Response status: ${response.status}`);
-                const data = await response.json();
-                log(`Response data: ${JSON.stringify(data)}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`Response data: ${JSON.stringify(data)}`);
+                } else {
+                    log(`Error response: ${response.statusText}`);
+                    // Try fallback
+                    log('Trying fallback GET /count...');
+                    const fallback = await fetch('/count');
+                    log(`Fallback status: ${fallback.status}`);
+                    if (fallback.ok) {
+                        const fallbackData = await fallback.json();
+                        log(`Fallback data: ${JSON.stringify(fallbackData)}`);
+                    }
+                }
             } catch (error) {
                 log(`Error: ${error.message}`);
             }

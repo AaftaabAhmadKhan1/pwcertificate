@@ -46,16 +46,29 @@
     const countDiv = document.getElementById('count');
     const resetBtn = document.getElementById('reset');
 
-    // Function to load current download count
+    // Function to load current download count with fallback
     async function loadCount() {
       try {
         countDiv.textContent = 'Loading...';
-        const res = await fetch('/api/download-count', {
+        
+        // Try the serverless function first
+        let res = await fetch('/api/download-count', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
+        
+        // If 404, try fallback endpoints
+        if (res.status === 404) {
+          console.log('Serverless function not found, trying Express server endpoint...');
+          res = await fetch('/count', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+        }
         
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -64,12 +77,21 @@
         const data = await res.json();
         countDiv.textContent = `Total Downloads: ${data.count || 0}`;
       } catch (err) {
-        countDiv.textContent = `Error loading count: ${err.message}`;
+        // Show error with more helpful message
+        countDiv.innerHTML = `
+          <div style="color: red;">Error loading count: ${err.message}</div>
+          <div style="font-size: 12px; margin-top: 10px;">
+            Try:<br>
+            1. Wait a few moments for deployment<br>
+            2. Refresh the page<br>
+            3. Check <a href="/test.html">API test page</a>
+          </div>
+        `;
         console.error('Load count error:', err);
       }
     }
 
-    // Reset count via API
+    // Reset count via API with fallback
     resetBtn.addEventListener('click', async () => {
       if (!confirm('Are you sure you want to reset the download count to 0?')) {
         return;
@@ -79,12 +101,24 @@
         resetBtn.disabled = true;
         resetBtn.textContent = 'Resetting...';
         
-        const res = await fetch('/api/download-count', { 
+        // Try serverless function first
+        let res = await fetch('/api/download-count', { 
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
           },
         });
+        
+        // If 404, try fallback endpoint
+        if (res.status === 404) {
+          console.log('Trying fallback reset endpoint...');
+          res = await fetch('/reset', { 
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+        }
         
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);

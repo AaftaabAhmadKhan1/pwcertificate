@@ -49,24 +49,55 @@
     // Function to load current download count
     async function loadCount() {
       try {
-        const res = await fetch('/api/download-count');
-        if (!res.ok) throw new Error('Network response not ok');
+        countDiv.textContent = 'Loading...';
+        const res = await fetch('/api/download-count', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
         const data = await res.json();
-        countDiv.textContent = `Total Downloads: ${data.count}`;
+        countDiv.textContent = `Total Downloads: ${data.count || 0}`;
       } catch (err) {
-        countDiv.textContent = 'Error loading count';
-        console.error(err);
+        countDiv.textContent = `Error loading count: ${err.message}`;
+        console.error('Load count error:', err);
       }
     }
 
     // Reset count via API
     resetBtn.addEventListener('click', async () => {
+      if (!confirm('Are you sure you want to reset the download count to 0?')) {
+        return;
+      }
+      
       try {
-        const res = await fetch('/api/download-count', { method: 'DELETE' });
-        if (!res.ok) throw new Error('Failed to reset count');
-        loadCount(); // reload after reset
+        resetBtn.disabled = true;
+        resetBtn.textContent = 'Resetting...';
+        
+        const res = await fetch('/api/download-count', { 
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
+        await loadCount(); // reload after reset
+        alert('Download count has been reset to 0');
       } catch (err) {
-        console.error(err);
+        alert(`Failed to reset count: ${err.message}`);
+        console.error('Reset error:', err);
+      } finally {
+        resetBtn.disabled = false;
+        resetBtn.textContent = 'Reset Count';
       }
     });
 

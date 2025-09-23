@@ -16,10 +16,34 @@ function readCount() {
   return JSON.parse(data);
 }
 function writeCount(countObj) {
+  // Ensure the data directory exists
+  const dataDir = path.dirname(DATA_FILE);
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
   fs.writeFileSync(DATA_FILE, JSON.stringify(countObj));
 }
 
-// Increment download
+// API endpoint to match serverless function
+app.all('/api/download-count', (req, res) => {
+  if (req.method === 'GET') {
+    const data = readCount();
+    res.json(data);
+  } else if (req.method === 'POST') {
+    const data = readCount();
+    data.count += 1;
+    writeCount(data);
+    res.json(data);
+  } else if (req.method === 'DELETE') {
+    const data = { count: 0 };
+    writeCount(data);
+    res.json(data);
+  } else {
+    res.status(405).json({ message: 'Method Not Allowed' });
+  }
+});
+
+// Legacy endpoints for backward compatibility
 app.post('/increment', (req, res) => {
   const data = readCount();
   data.count += 1;
@@ -27,13 +51,11 @@ app.post('/increment', (req, res) => {
   res.json(data);
 });
 
-// Get current count
 app.get('/count', (req, res) => {
   const data = readCount();
   res.json(data);
 });
 
-// Reset count
 app.post('/reset', (req, res) => {
   const data = { count: 0 };
   writeCount(data);

@@ -1,79 +1,261 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form with Phone Number & Preview</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<title>Certificate of Appreciation</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{
+  height:100%; 
+  font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;
+  transform: scale(0.65);
+  transform-origin: center center;
+}
+body{
+  height:100%;
+  color:#222;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  overflow:hidden;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
 
-    form {
-      margin-bottom: 20px;
-    }
+.page{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+}
+header{display:flex;align-items:center;justify-content:center;padding:12px 10px;width:100%;position:relative;}
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
+.title{
+  font-weight:900;
+  font-size:clamp(20px, 5vw, 40px); 
+  text-align:center;
+  background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+  background-size: 400% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 8s linear infinite;
+  white-space: nowrap;
+  overflow: hidden;
+}
+@keyframes rainbow {
+  0%{background-position:0% 0%;}
+  100%{background-position:400% 0%;}
+}
 
-    input[type="tel"] {
-      width: 100%;
-      max-width: 300px;
-      padding: 8px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      margin-bottom: 15px;
-    }
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;gap:20px;flex:1;overflow:hidden;}
 
-    button {
-      padding: 8px 16px;
-      font-size: 14px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+.card{
+  width: 100%;
+  max-width: 1000px;
+  background:#fff;
+  border-radius:16px;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  align-items:center;
+  border: 6px solid transparent;
+  border-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) 1;
+  animation: rainbowBorder 8s linear infinite;
+  border-image-slice: 1;
+  box-shadow:0 10px 30px rgba(75,0,130,0.08);
+  position: relative;
+}
+@keyframes rainbowBorder {
+  0%,100%{border-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) 1;}
+  25%{border-image: linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet) 1;}
+  50%{border-image: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet) 1;}
+  75%{border-image: linear-gradient(360deg, red, orange, yellow, green, blue, indigo, violet) 1;}
+}
 
-    button:hover {
-      background-color: #0056b3;
-    }
+.headline{
+  font-size: clamp(16px, 4vw, 28px);
+  color:#4B0082;
+  font-weight:800;
+  text-align:center;
+}
 
-    /* Preview box */
-    #preview {
-      width: 100%;
-      max-width: 500px;
-      height: 300px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 10px;
-      overflow-y: auto;
-      background-color: #f9f9f9;
-    }
-  </style>
+.preview{
+  margin-top:10px;
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  border:2px solid #4B0082;
+  box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  max-height:350px;   /* Adjusted smaller preview */
+  max-width:100%;
+  width:auto;
+}
+.preview img{
+  max-width:75%;
+  max-height:100%;
+  height:auto;
+  display:block;
+}
+
+.name-overlay{
+  position:absolute;
+  top:57%;
+  left:50%;
+  transform:translate(-50%, 0);
+  font-size: clamp(18px, 4vw, 36px);
+  font-weight:400;
+  color:#222;
+  text-align:center;
+  white-space:nowrap;
+  font-family:'Times New Roman',serif;
+  letter-spacing:1px;
+  z-index:2;
+}
+
+.form{background:linear-gradient(180deg,#fff,#fbfbff);padding:18px;border-radius:12px;border:1px solid rgba(75,0,130,0.06);display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:10px;width:100%;}
+.form h2{color:#333;margin-bottom:4px;font-size:clamp(18px, 4vw, 24px);}
+.name-input{width:100%;display:flex;gap:8px;flex-wrap:wrap;}
+input[type=tel]{flex:1;padding:12px;border-radius:10px;border:1px solid #e6e6f2;font-size:clamp(14px, 3vw,16px);min-width:0;}
+
+.btn-rainbow{
+  padding:12px 20px;
+  border-radius:12px;
+  font-weight:700;
+  font-size:clamp(14px, 3vw,16px);
+  border:none;
+  cursor:pointer;
+  background: linear-gradient(90deg, #4e54c8, #8f94fb);
+  position: relative;
+  color: white;
+  overflow: hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+  flex:1;
+  min-width:120px;
+}
+.btn-rainbow:disabled{
+  opacity:0.6;
+  cursor:not-allowed;
+}
+.btn-rainbow:hover:enabled{transform: scale(1.05);}
+</style>
 </head>
 <body>
+<div class="page">
+<header>
+  <div class="title">Certificate of Appreciation for Our PW Champs !!</div>
+</header>
 
-  <form>
-    <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" name="phone"
-           maxlength="10"
-           pattern="[0-9]{10}"
-           placeholder="Enter 10-digit number"
-           required />
+<main class="hero">
+  <section class="card">
+    <div style="width:100%;">
+      <div class="headline">Enter your phone number to get your certificate</div>
+      
+      <div class="preview" id="preview">
+        <img src="certificate.jpg" alt="Certificate template" id="certImg">
+        <div class="name-overlay" id="nameOverlay"></div>
+      </div>
+    </div>
 
-    <button type="submit">Submit</button>
-  </form>
+    <aside class="form">
+      <h2>Phone Number</h2>
+      <div class="name-input">
+        <input id="phone" type="tel" maxlength="10" pattern="[0-9]{10}" placeholder="Enter 10-digit phone number" required />
+      </div>
+      
+      <div style="width:100%;display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap">
+        <button id="download" class="btn-rainbow" disabled>Download Certificate</button>
+        <button id="reset" class="btn-rainbow">Reset</button>
+      </div>
+    </aside>
+  </section>
+</main>
+</div>
 
-  <div id="preview">
-    <p><strong>Preview Area:</strong></p>
-    <p>Your preview content will appear here. Resize fixed to 500px max width & 300px height.</p>
-  </div>
+<script>
+// Elements
+const phoneInput = document.getElementById('phone');
+const download = document.getElementById('download');
+const reset = document.getElementById('reset');
+const nameOverlay = document.getElementById('nameOverlay');
+const certImg = document.getElementById('certImg');
 
+// Load CSV from public folder
+async function loadCSV() {
+  const response = await fetch('students.csv');
+  const text = await response.text();
+  const rows = text.split('\n').map(r => r.trim()).filter(r => r);
+  const data = {};
+  rows.forEach(row => {
+    const [phone, name] = row.split(',');
+    data[phone.trim()] = name.trim();
+  });
+  return data;
+}
+
+let studentData = {};
+loadCSV().then(data => studentData = data);
+
+// Enable download when phone is valid
+phoneInput.addEventListener('input', ()=>{
+  const phone = phoneInput.value.trim();
+  if(phone.length === 10 && studentData[phone]){
+    nameOverlay.textContent = studentData[phone];
+    download.disabled = false;
+  } else {
+    nameOverlay.textContent = '';
+    download.disabled = true;
+  }
+});
+
+// Reset form
+reset.addEventListener('click', ()=>{
+  phoneInput.value = '';
+  nameOverlay.textContent = '';
+  download.disabled = true;
+});
+
+// Download certificate
+download.addEventListener('click', async ()=>{
+  const phone = phoneInput.value.trim();
+  if(!studentData[phone]) return;
+
+  const studentName = studentData[phone];
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = certImg.src;
+
+  img.onload = ()=>{
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img,0,0);
+    ctx.font = '72px Times New Roman';
+    ctx.fillStyle = '#222';
+    ctx.textAlign = 'center';
+    ctx.fillText(studentName, canvas.width/2, canvas.height*0.65);
+
+    const link = document.createElement('a');
+    link.download = studentName + '_certificate.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+});
+</script>
 </body>
 </html>

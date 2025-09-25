@@ -195,7 +195,7 @@ const certImg = document.getElementById('certImg');
 
 // Load CSV from public folder
 async function loadCSV() {
-  const response = await fetch('students.csv');
+  const response = await fetch('student.csv');
   const text = await response.text();
   const rows = text.split('\n').map(r => r.trim()).filter(r => r);
   const data = {};

@@ -2,435 +2,115 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <title>Certificate of Appreciation</title>
 <style>
+/* Keep your existing CSS */
 *{box-sizing:border-box;margin:0;padding:0}
-html{
-  height:100%; 
-  font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;
-  transform: scale(0.65);
-  transform-origin: center center;
-}
 body{
-  height:100%;
-  color:#222;
+  font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;
   background: linear-gradient(135deg, #667eea, #764ba2);
-  overflow:hidden;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  display:flex;justify-content:center;align-items:center;
+  min-height:100vh;padding:20px;
 }
-
-
-
-.page{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  width:100%;
-  max-width:1200px;
-  margin:0 auto;
-}
-header{display:flex;align-items:center;justify-content:center;padding:12px 10px;width:100%;position:relative;}
-
-.title{
-  font-weight:900;
-  font-size:clamp(20px, 5vw, 40px); 
-  text-align:center;
-  background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-  background-size: 400% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: rainbow 8s linear infinite;
-  white-space: nowrap;
-  overflow: hidden;
-}
-@keyframes rainbow {
-  0%{background-position:0% 0%;}
-  100%{background-position:400% 0%;}
-}
-
-.preview-btn {
-  position:absolute;
-  left:10px;
-  top:10px;
-  padding:10px 16px;
-  background:#4e54c8;
-  color:white;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:700;
-  z-index:10;
-}
-.preview-btn:hover { background:#6f71f5; }
-
-.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;gap:20px;flex:1;overflow:hidden;}
-
-.card{
-  width: 100%;
-  max-width: 1000px;
-  background:#fff;
-  border-radius:16px;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-  align-items:center;
-  border: 6px solid transparent;
-  border-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) 1;
-  animation: rainbowBorder 8s linear infinite;
-  border-image-slice: 1;
-  box-shadow:0 10px 30px rgba(75,0,130,0.08);
-  position: relative;
-}
-@keyframes rainbowBorder {
-  0%,100%{border-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) 1;}
-  25%{border-image: linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet) 1;}
-  50%{border-image: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet) 1;}
-  75%{border-image: linear-gradient(360deg, red, orange, yellow, green, blue, indigo, violet) 1;}
-}
-
-/* Logos in four corners */
-.logo{
-  position:fixed;
-  width: clamp(80px,8vw,80px);
-  height: clamp(50px,8vw,80px);
-  object-fit: contain;
-  z-index:1000;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.1);
-  padding: 5px;
-}
-.top-left{top:-120px; left:-250px;}
-.top-right{top:-120px; right:-250px;}
-.bottom-left{bottom:-120px; left:-250px;}
-.bottom-right{bottom:-120px; right:-250px;}
-
-.headline{
-  font-size: clamp(16px, 4vw, 28px);
-  color:#4B0082;
-  font-weight:800;
-  text-align:center;
-}
-.sub{margin-top:5px;color:#444;opacity:.9;}
-
-.preview{
-  margin-top:10px;
-  background:#fff;
-  border-radius:12px;
-  overflow:hidden;
-  position:relative;
-  border:2px solid #4B0082;
-  box-shadow:0 4px 14px rgba(0,0,0,0.08);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  max-height:450px;
-  max-width:100%;
-  width:auto;
-}
-.preview img{
-  max-width:75%;
-  max-height:100%;
-  height:auto;
-  display:block;
-}
-
-.name-overlay{
-  position:absolute;
-  top:57%;
-  left:50%;
-  transform:translate(-50%, 0);
-  font-size: clamp(18px, 4vw, 36px);
-  font-weight:400;
-  color:#222;
-  text-align:center;
-  white-space:nowrap;
-  font-family:'Times New Roman',serif;
-  letter-spacing:1px;
-  z-index:2;
-}
-
-.form{background:linear-gradient(180deg,#fff,#fbfbff);padding:18px;border-radius:12px;border:1px solid rgba(75,0,130,0.06);display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:10px;width:100%;}
-.form h2{color:#333;margin-bottom:4px;font-size:clamp(18px, 4vw, 24px);}
-.name-input{width:100%;display:flex;gap:8px;flex-wrap:wrap;}
-input[type=text]{flex:1;padding:12px;border-radius:10px;border:1px solid #e6e6f2;font-size:clamp(14px, 3vw,16px);min-width:0;}
-
-.btn-rainbow{
-  padding:12px 20px;
-  border-radius:12px;
-  font-weight:700;
-  font-size:clamp(14px, 3vw,16px);
-  border:none;
-  cursor:pointer;
-  background: linear-gradient(90deg, #4e54c8, #8f94fb);
-  position: relative;
-  color: white;
-  overflow: hidden;
-  box-shadow:0 6px 20px rgba(0,0,0,0.2);
-  transition: transform 0.2s;
-  flex:1;
-  min-width:120px;
-}
-.btn-rainbow::before{
-  content:'';
-  position:absolute;
-  top:0; left:0; width:100%; height:100%;
-  background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-  background-size: 400% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: rainbow 8s linear infinite;
-  mix-blend-mode: screen;
-}
-.btn-rainbow:disabled{
-  opacity:0.6;
-  cursor:not-allowed;
-}
-.btn-rainbow:hover:enabled{transform: scale(1.05);}
-
-/* Tablet optimizations */
-@media (max-width:1024px){
-  .card{padding:16px;}
-  .form{padding:12px;}
-  .preview{max-height:300px;}
-}
-
-/* Mobile optimizations */
-@media (max-width:768px){
-  html{
-    transform: none;
-    height: auto;
-  }
-  
-  body{
-    overflow-x: hidden;
-    overflow-y: auto;
-    min-height: 100vh;
-    height: auto;
-    justify-content: flex-start;
-    padding: 0;
-  }
-  
-  .page{
-    padding: 15px;
-    min-height: calc(100vh - 30px);
-    justify-content: flex-start;
-    width: 100%;
-    max-width: none;
-    margin: 0;
-  }
-  
-  .title{
-    font-size:clamp(18px, 6vw, 28px);
-    line-height:1.2;
-    padding:0 10px;
-  }
-  
-  .card{
-    padding:15px;
-    margin:10px 0;
-    border-radius:12px;
-  }
-  
-  .preview{
-    max-height:250px;
-    margin-top:15px;
-  }
-  
-  .form{
-    padding:15px;
-    gap:15px;
-  }
-  
-  .name-input{
-    flex-direction:column;
-    gap:12px;
-  }
-  
-  input[type=text]{
-    padding:15px;
-    font-size:16px;
-  }
-  
-  .btn-rainbow{
-    padding:15px 20px;
-    font-size:16px;
-    min-width:100%;
-    margin-bottom:10px;
-  }
-  
-  .logo{
-    width:30px;
-    height:30px;
-  }
-}
-
-/* Small phone optimizations */
-@media (max-width:480px){
-  .page{
-    padding: 10px;
-    min-height: calc(100vh - 20px);
-  }
-  
-  header{
-    padding: 10px 5px;
-  }
-  
-  .title{
-    font-size: clamp(14px, 4vw, 18px);
-    line-height: 1.1;
-    white-space: normal;
-    word-break: break-word;
-  }
-  
-  .card{
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-  }
-  
-  .preview{
-    max-height: 180px;
-    margin-top: 10px;
-  }
-  
-  .form{
-    padding: 10px;
-    gap: 10px;
-  }
-  
-  .btn-rainbow{
-    padding: 12px 16px;
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
-  
-  .logo{
-    width: 25px;
-    height: 25px;
-  }
-  
-  .top-left{top: 5px; left: 5px;}
-  .top-right{top: 5px; right: 5px;}
-  .bottom-left{bottom: 5px; left: 5px;}
-  .bottom-right{bottom: 5px; right: 5px;}
-}
-
-/* Extra small screens */
-@media (max-width:360px){
-  .page{
-    padding: 8px;
-  }
-  
-  .title{
-    font-size: clamp(12px, 4vw, 16px);
-    padding: 0 5px;
-  }
-  
-  .card{
-    padding: 8px;
-  }
-  
-  .preview{
-    max-height: 150px;
-  }
-  
-  .form{
-    padding: 8px;
-  }
-  
-  input[type=text]{
-    padding: 12px;
-    font-size: 14px;
-  }
-  
-  .btn-rainbow{
-    padding: 10px 12px;
-    font-size: 13px;
-  }
-}
+.page{max-width:1000px;width:100%;}
+.title{font-weight:900;font-size:28px;text-align:center;margin-bottom:20px;color:white;}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,0.15);}
+.preview{margin-top:20px;position:relative;text-align:center;}
+.preview img{max-width:100%;border-radius:12px;}
+.name-overlay{position:absolute;top:57%;left:50%;transform:translate(-50%,0);
+  font-size:36px;font-family:'Times New Roman',serif;font-weight:400;color:#222;}
+.form{margin-top:20px;display:flex;flex-direction:column;gap:10px;}
+input[type=text], input[type=file]{padding:12px;border-radius:8px;border:1px solid #ccc;width:100%;}
+button{padding:12px;border:none;border-radius:8px;font-weight:600;cursor:pointer;color:white;background:#4e54c8;}
+button:disabled{opacity:0.6;cursor:not-allowed;}
 </style>
 </head>
 <body>
 <div class="page">
-<header>
-  
   <div class="title">Certificate of Appreciation for Our PW Champs !!</div>
-</header>
-
-<!-- Logos outside card -->
-<img src="logo1.svg" class="logo top-left" alt="Top Left Logo">
-<img src="logo2.svg" class="logo top-right" alt="Top Right Logo">
-<img src="logo3.svg" class="logo bottom-left" alt="Bottom Left Logo">
-<img src="logo4.svg" class="logo bottom-right" alt="Bottom Right Logo">
-
-<main class="hero">
-  <section class="card" role="region" aria-label="Main">
-    <div style="width:100%;">
-      <div class="headline">A simple token of appreciation — fast, printable, and beautiful.</div>
-      
-      <div class="preview" id="preview">
-        <img src="certificate.jpg" alt="Certificate template" id="certImg">
-        <div class="name-overlay" id="nameOverlay"></div>
-      </div>
+  <section class="card">
+    
+    <div class="preview" id="preview">
+      <img src="certificate.jpg" alt="Certificate template" id="certImg">
+      <div class="name-overlay" id="nameOverlay"></div>
     </div>
 
-    <aside class="form" aria-label="Create">
-      <h2>Enter Your Name Below</h2>
-      <div class="name-input">
-        <input id="name" type="text" placeholder="Full name" value="" />
-      </div>
-      
-      <div style="width:100%;display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap">
-        <button id="download" class="btn-rainbow" disabled>Download Certificate</button>
-        <button id="reset" class="btn-rainbow">Reset</button>
-      </div>
-    </aside>
+    <div class="form">
+      <h3>Upload CSV (Name, Number)</h3>
+      <input type="file" id="csvFile" accept=".csv" />
+
+      <h3>Enter Phone Number</h3>
+      <input id="phone" type="text" placeholder="Phone number" />
+
+      <button id="download" disabled>Download Certificate</button>
+      <button id="reset">Reset</button>
+    </div>
   </section>
-</main>
 </div>
 
+<!-- PapaParse for CSV parsing -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
 <script>
-const nameInput = document.getElementById('name');
-const download = document.getElementById('download');
-const reset = document.getElementById('reset');
+const phoneInput = document.getElementById('phone');
+const downloadBtn = document.getElementById('download');
+const resetBtn = document.getElementById('reset');
 const nameOverlay = document.getElementById('nameOverlay');
 const certImg = document.getElementById('certImg');
+const csvFile = document.getElementById('csvFile');
 
-// Update name overlay and enable download
-nameInput.addEventListener('input', ()=>{
-  const val = nameInput.value.trim();
-  nameOverlay.textContent = val || '';
-  download.disabled = val === '';
+let phoneToName = {}; // mapping from Number -> Name
+
+// Parse uploaded CSV
+csvFile.addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  Papa.parse(file, {
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      phoneToName = {};
+      results.data.forEach(row => {
+        if(row.Number && row.Name) {
+          phoneToName[row.Number.trim()] = row.Name.trim();
+        }
+      });
+      alert("CSV uploaded successfully with " + Object.keys(phoneToName).length + " entries.");
+    }
+  });
 });
 
-// Reset form
-reset.addEventListener('click', ()=>{
-  nameInput.value = '';
+// Check phone number input
+phoneInput.addEventListener('input', ()=>{
+  const number = phoneInput.value.trim();
+  const foundName = phoneToName[number];
+  if(foundName){
+    nameOverlay.textContent = foundName;
+    downloadBtn.disabled = false;
+  } else {
+    nameOverlay.textContent = '';
+    downloadBtn.disabled = true;
+  }
+});
+
+// Reset everything
+resetBtn.addEventListener('click', ()=>{
+  phoneInput.value = '';
   nameOverlay.textContent = '';
-  download.disabled = true;
+  downloadBtn.disabled = true;
 });
 
-// Download certificate and notify backend API
-download.addEventListener('click', async ()=>{
-  if(!nameInput.value.trim()) return;
+// Download certificate
+downloadBtn.addEventListener('click', ()=>{
+  if(!nameOverlay.textContent) return;
 
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   const img = new Image();
   img.crossOrigin = 'anonymous';
   img.src = certImg.src;
-  img.onload = async ()=>{
+  img.onload = ()=>{
     canvas.width = img.width;
     canvas.height = img.height;
     ctx.drawImage(img,0,0);
@@ -439,31 +119,12 @@ download.addEventListener('click', async ()=>{
     ctx.textAlign = 'center';
     ctx.fillText(nameOverlay.textContent, canvas.width/2, canvas.height*0.65);
 
-    // Save as PNG
     const link = document.createElement('a');
-    link.download = 'certificate.png';
+    link.download = `${nameOverlay.textContent}_certificate.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
-
-    // Notify backend API with fallback
-    const incrementEndpoints = ['/api/downloads', '/api/count', '/api/download-count'];
-    
-    for (const endpoint of incrementEndpoints) {
-      try {
-        const response = await fetch(endpoint, { 
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        if (response.ok) {
-          console.log('Download count updated via', endpoint);
-          break;
-        }
-      } catch(err){ 
-        console.warn('Failed endpoint:', endpoint, err.message); 
-      }
-    }
   };
 });
 </script>
+</body>
+</html>

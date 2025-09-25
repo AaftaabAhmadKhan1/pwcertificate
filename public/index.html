@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <title>Certificate of Appreciation</title>
 <style>
-/* Keep your existing CSS */
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;
@@ -16,12 +15,15 @@ body{
 .page{max-width:1000px;width:100%;}
 .title{font-weight:900;font-size:28px;text-align:center;margin-bottom:20px;color:white;}
 .card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,0.15);}
-.preview{margin-top:20px;position:relative;text-align:center;}
+.preview{margin-top:20px;position:relative;text-align:center;max-height:550px;}
 .preview img{max-width:100%;border-radius:12px;}
-.name-overlay{position:absolute;top:57%;left:50%;transform:translate(-50%,0);
-  font-size:36px;font-family:'Times New Roman',serif;font-weight:400;color:#222;}
-.form{margin-top:20px;display:flex;flex-direction:column;gap:10px;}
-input[type=text], input[type=file]{padding:12px;border-radius:8px;border:1px solid #ccc;width:100%;}
+.name-overlay{
+  position:absolute;top:57%;left:50%;transform:translate(-50%,0);
+  font-size:40px;font-family:'Times New Roman',serif;
+  font-weight:400;color:#222;white-space:nowrap;
+}
+.form{margin-top:20px;display:flex;flex-direction:column;gap:12px;}
+input[type=text]{padding:14px;border-radius:8px;border:1px solid #ccc;width:100%;font-size:16px;}
 button{padding:12px;border:none;border-radius:8px;font-weight:600;cursor:pointer;color:white;background:#4e54c8;}
 button:disabled{opacity:0.6;cursor:not-allowed;}
 </style>
@@ -37,19 +39,15 @@ button:disabled{opacity:0.6;cursor:not-allowed;}
     </div>
 
     <div class="form">
-      <h3>Upload CSV (Name, Number)</h3>
-      <input type="file" id="csvFile" accept=".csv" />
-
       <h3>Enter Phone Number</h3>
       <input id="phone" type="text" placeholder="Phone number" />
-
       <button id="download" disabled>Download Certificate</button>
       <button id="reset">Reset</button>
     </div>
   </section>
 </div>
 
-<!-- PapaParse for CSV parsing -->
+<!-- PapaParse -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
 <script>
@@ -58,30 +56,24 @@ const downloadBtn = document.getElementById('download');
 const resetBtn = document.getElementById('reset');
 const nameOverlay = document.getElementById('nameOverlay');
 const certImg = document.getElementById('certImg');
-const csvFile = document.getElementById('csvFile');
 
 let phoneToName = {}; // mapping from Number -> Name
 
-// Parse uploaded CSV
-csvFile.addEventListener('change', (e)=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  Papa.parse(file, {
-    header: true,
-    skipEmptyLines: true,
-    complete: function(results) {
-      phoneToName = {};
-      results.data.forEach(row => {
-        if(row.Number && row.Name) {
-          phoneToName[row.Number.trim()] = row.Name.trim();
-        }
-      });
-      alert("CSV uploaded successfully with " + Object.keys(phoneToName).length + " entries.");
-    }
-  });
-});
+// Load CSV from public folder
+fetch('students.csv')
+  .then(response => response.text())
+  .then(csvText => {
+    const results = Papa.parse(csvText, {header: true, skipEmptyLines: true});
+    results.data.forEach(row => {
+      if(row.Number && row.Name) {
+        phoneToName[row.Number.trim()] = row.Name.trim();
+      }
+    });
+    console.log("Loaded", Object.keys(phoneToName).length, "students from CSV.");
+  })
+  .catch(err => console.error("Error loading CSV:", err));
 
-// Check phone number input
+// On phone number input
 phoneInput.addEventListener('input', ()=>{
   const number = phoneInput.value.trim();
   const foundName = phoneToName[number];
@@ -94,7 +86,7 @@ phoneInput.addEventListener('input', ()=>{
   }
 });
 
-// Reset everything
+// Reset
 resetBtn.addEventListener('click', ()=>{
   phoneInput.value = '';
   nameOverlay.textContent = '';

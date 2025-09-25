@@ -60,7 +60,7 @@ const certImg = document.getElementById('certImg');
 let phoneToName = {}; // mapping from Number -> Name
 
 // Load CSV from public folder
-fetch('students.csv')
+fetch('student.csv')
   .then(response => response.text())
   .then(csvText => {
     const results = Papa.parse(csvText, {header: true, skipEmptyLines: true});

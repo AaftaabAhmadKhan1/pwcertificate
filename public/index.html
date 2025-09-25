@@ -81,7 +81,7 @@
 
   <script>
     async function loadCSV() {
-      const response = await fetch('/students.csv');
+      const response = await fetch('/student.csv');
       const data = await response.text();
       const rows = data.split('\n').map(r => r.trim()).filter(r => r.length);
       let students = {};
